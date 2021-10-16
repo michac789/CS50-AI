@@ -1,0 +1,52 @@
+Week 0
+
+- Modules overview in this course:
+Search, Knowledge, Uncertainty, Optimization, Learning, Neural Networks, Language
+
+- Some basic terminologies:
+Agent: entity that perceives its environment and acts upon that environment
+State: a configuration of the agent and its environment
+*Initial state 
+Actions: return the set of actions that can be executed in state set
+Transition model: take state and action, return the resulting state / output
+Goal test: way to determine a given state is a goal state
+Path cost: numerical cost associated with a given Path
+*Optimal solution: solution with the lowest path cost
+
+- Approach:
+Node: data structure, track of state, parent, action, path cost
+> Start with a frontier that contains initial state
+> Start with empty explored set
+> Repeat:
+> If frontier empty, no solution
+> Remove node from frontier; stack or queue
+> If node contains goal state, return the solution
+> Add the node to the explored set
+> Expand node, add resulting nodes to frontier if not in explored or frontier
+
+- Search algorithm:
+depth-first search (stack) VS breadth-first search (queue)
+*source code in seperate python file
+informed search: use some problem specific knowledge
+greedy best-first search: heuristic function, estimating how close to the goal
+A* search: g(n) cost fo reach node + h(n) estimated cost to goal
+adversarial search: such as minimax
+
+- Minimax: recursive algorithm
+Max(X) aims to maximize score, Min(O) aims to minimize score
+S0: initial state
+Player(s): take state, return which player to move in state score
+Actions(s): take state, return legal moves
+Results(s, a): returns state after action a taken in state s
+Terminal(s): game over; someone wins or no more possible moves
+Utility(s): find numerical value for terminal state s
+Pseudocode: (for MaxValue, MinValue is just the opposite)
+> function MaxValue(state):
+>   if terminal(state):
+>      return utility(state)
+>   v = -infinity
+>   for actions in actions(state):
+>      v = MAX(v, MinValue(result(state, action)))
+Optimization -> alpha-beta pruning
+depth-limited minimax: limit the number of next moves considered
+need to add evaluation_function to evaluate a position
