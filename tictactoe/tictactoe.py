@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+from random import randint
 
 X = "X"
 O = "O"
@@ -90,25 +91,27 @@ def utility(board):
     return 0
 
 
-def scoretracker(board):
-    # Return the highest possible score if maximize is True, else return lowest possible score of the move
+def scoretracker(board, alpha, beta):
+    # Return the highest possible score if maximize is True, else return lowest possible score of the move (checked)
     if terminal(board) == True:
         return utility(board)
     possible_moves = list(actions(board))
     if player(board) == X:
         initial_score = -2
         for moves in range(len(possible_moves)):
-            board_simulation = result(board, list(possible_moves)[moves])
-            score = scoretracker(board_simulation)
-            if score > initial_score:
-                initial_score = score
+            score = scoretracker(result(board, list(possible_moves)[moves]), alpha, beta)
+            initial_score = max(initial_score, score)
+            alpha = max(alpha, score)
+            if beta <= alpha:
+                break
     elif player(board) == O:
         initial_score = 2
         for moves in range(len(possible_moves)):
-            board_simulation = result(board, list(possible_moves)[moves])
-            score = scoretracker(board_simulation)
-            if score < initial_score:
-                initial_score = score
+            score = scoretracker(result(board, list(possible_moves)[moves]), alpha, beta)
+            initial_score = min(initial_score, score)
+            beta = min(beta, score)
+            if beta <= alpha:
+                break
     return initial_score
 
 
@@ -122,15 +125,15 @@ def minimax(board):
         score = -2
         for moves in range(len(possible_moves)):
             board_simulation = result(board, list(possible_moves)[moves])
-            if scoretracker(board_simulation) > score:
-                score = scoretracker(board_simulation)
+            if scoretracker(board_simulation, -2, 2) > score:
+                score = scoretracker(board_simulation, -2, 2)
                 optimal_move = possible_moves[moves]
     elif player(board) == O:
         score = 2
         for moves in range(len(possible_moves)):
             board_simulation = result(board, list(possible_moves)[moves])
-            if scoretracker(board_simulation) < score:
-                score = scoretracker(board_simulation)
+            if scoretracker(board_simulation, -2, 2) < score:
+                score = scoretracker(board_simulation, -2, 2)
                 optimal_move = possible_moves[moves]
     return optimal_move
 

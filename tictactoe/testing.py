@@ -1,4 +1,5 @@
-from tictactoe import player, actions, result, winner, terminal, utility
+from tictactoe import player, actions, result, winner, terminal, utility, minimax, scoretracker
+
 
 def main():
     board1 = [[None, None, None], [None, None, None], [None, None, None]]
@@ -21,6 +22,10 @@ def main():
     print(f", 6: {terminal(board6)}, 7: {terminal(board7)}, 8: {terminal(board8)}, 9: {terminal(board9)}, 10: {terminal(board10)}")
     print(f"utility 1: {utility(board1)}, 2: {utility(board2)}, 3: {utility(board3)}, 4: {utility(board4)}, 5: {utility(board5)}", end="")
     print(f", 6: {utility(board6)}, 7: {utility(board7)}, 8: {utility(board8)}, 9: {utility(board9)}, 10: {utility(board10)}")
+    print(f"minimax 1: {minimax(board1)}, 2: {minimax(board2)}, 3: {minimax(board3)}, 4: {minimax(board4)}, 5: {minimax(board5)}", end="")
+    print(f", 6: {minimax(board6)}, 7: {minimax(board7)}, 8: {minimax(board8)}, 9: {minimax(board9)}, 10: {minimax(board10)}")
+    print(f"scoretracker 1: {scoretracker(board1, -2, 2)}, 2: {scoretracker(board2, -2, 2)}, 3: {scoretracker(board3, -2, 2)}, 4: {scoretracker(board4, -2, 2)}, 5: {scoretracker(board5, -2, 2)}", end="")
+    print(f", 6: {scoretracker(board6, -2, 2)}, 7: {scoretracker(board7, -2, 2)}, 8: {scoretracker(board8, -2, 2)}, 9: {scoretracker(board9, -2, 2)}, 10: {scoretracker(board10, -2, 2)}")
 
 
 main()
