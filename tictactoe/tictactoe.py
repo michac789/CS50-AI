@@ -116,7 +116,7 @@ def scoretracker(board, alpha, beta):
 
 
 def minimax(board):
-    # Returns the optimal action for the current player on the board.
+    # Returns the optimal action for the current player on the board. (checked)
     if terminal(board) == True:
         return None
     possible_moves = list(actions(board))
@@ -128,6 +128,11 @@ def minimax(board):
             if scoretracker(board_simulation, -2, 2) > score:
                 score = scoretracker(board_simulation, -2, 2)
                 optimal_move = possible_moves[moves]
+            # if there are more than 1 optimal move, the computer do not always choose the exact same one
+            elif scoretracker(board_simulation, -2, 2) == score: 
+                if randint(0, 1) == 0:
+                    score = scoretracker(board_simulation, -2, 2)
+                    optimal_move = possible_moves[moves]
     elif player(board) == O:
         score = 2
         for moves in range(len(possible_moves)):
@@ -135,5 +140,10 @@ def minimax(board):
             if scoretracker(board_simulation, -2, 2) < score:
                 score = scoretracker(board_simulation, -2, 2)
                 optimal_move = possible_moves[moves]
+            # if there are more than 1 optimal move, the computer do not always choose the exact same one
+            elif scoretracker(board_simulation, -2, 2) == score:
+                if randint(0, 1) == 0:
+                    score = scoretracker(board_simulation, -2, 2)
+                    optimal_move = possible_moves[moves]
     return optimal_move
 
