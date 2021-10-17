@@ -90,27 +90,47 @@ def utility(board):
     return 0
 
 
-def minimax(board):
-    """
-    Returns the optimal action for the current player on the board.
-    """
+def scoretracker(board):
+    # Return the highest possible score if maximize is True, else return lowest possible score of the move
     if terminal(board) == True:
         return utility(board)
-    possible_moves = actions(board)
+    possible_moves = list(actions(board))
     if player(board) == X:
         initial_score = -2
-        for moves in range(len(actions(board))):
+        for moves in range(len(possible_moves)):
             board_simulation = result(board, list(possible_moves)[moves])
-            score = minimax(board_simulation)
+            score = scoretracker(board_simulation)
             if score > initial_score:
                 initial_score = score
     elif player(board) == O:
         initial_score = 2
-        for moves in range(len(actions(board))):
+        for moves in range(len(possible_moves)):
             board_simulation = result(board, list(possible_moves)[moves])
-            score = minimax(board_simulation)
+            score = scoretracker(board_simulation)
             if score < initial_score:
                 initial_score = score
-    return utility(board)
+    return initial_score
 
+
+def minimax(board):
+    # Returns the optimal action for the current player on the board.
+    if terminal(board) == True:
+        return None
+    possible_moves = list(actions(board))
+    optimal_move = (-1, -1)
+    if player(board) == X:
+        score = -2
+        for moves in range(len(possible_moves)):
+            board_simulation = result(board, list(possible_moves)[moves])
+            if scoretracker(board_simulation) > score:
+                score = scoretracker(board_simulation)
+                optimal_move = possible_moves[moves]
+    elif player(board) == O:
+        score = 2
+        for moves in range(len(possible_moves)):
+            board_simulation = result(board, list(possible_moves)[moves])
+            if scoretracker(board_simulation) < score:
+                score = scoretracker(board_simulation)
+                optimal_move = possible_moves[moves]
+    return optimal_move
 
