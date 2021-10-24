@@ -93,10 +93,6 @@ def shortest_path(source, target):
     """
     # TODO
 
-    print(names)
-    print(people)
-    print(movies)
-
     # Frontier that contains initial state & empty explored set
     frontier = QueueFrontier()
     frontier.add(Node(source, None, None))
@@ -109,30 +105,19 @@ def shortest_path(source, target):
         if frontier.empty() == True:
             return None
         # Remove node from frontier (bfs/queue), add to explored set
-        thisnode = frontier.remove()
-        explored.add(thisnode.state)
-        # Add the neighbour of this node if not in frontier or explored set yet
-        print(f"Frontier: {frontier}, node state is: {thisnode.state}") #DEBUG
-        x = neighbors_for_person(thisnode.state)
-        neighbors = list(neighbors_for_person(thisnode.state))
-        print(neighbors) #DEBUG
-        print(len(neighbors))
-        #for i in range(len(thi)
-        for i in range(len(neighbors)):
-            neighbornode = Node(neighbors[i][1], thisnode, neighbors[i][0])
-            print(f"i = {i}, node = {neighbornode}, state = {neighbornode.state}") #DEBUG
-            #print(f"state: {neighbornode.state}")
-            if frontier.contains_state(neighbors[i][1]) == False:
-                if neighbornode.state not in explored:
-                    # If this node contain target (goal), return solution, else add neighbor to frontier
-                    if neighbornode.state == target:
-                        while neighbornode.parent is not None:
-                            solution_list.append((neighbornode.action, neighbornode.state))
-                            neighbornode = neighbornode.parent
-                        return solution_list[::-1]
-                    else:
-                        frontier.add(neighbornode.state)
-
+        node = frontier.remove()
+        explored.add(node.state)
+        # If it is the goal, backtrack and return the solution
+        if node.state == target:
+            while node.parent is not None:
+                solution_list.append((node.action, node.state))
+                node = node.parent
+            return solution_list[::-1]
+        # Else add neighbor to frontier
+        for action, state in neighbors_for_person(node.state):
+            if not frontier.contains_state(state) and state not in explored:
+                child = Node(state=state, parent=node, action=action)
+                frontier.add(child)
 
 class Node():
     def __init__(self, state, parent, action):
