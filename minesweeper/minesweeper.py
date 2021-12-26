@@ -1,5 +1,6 @@
 import itertools
 import random
+from copy import deepcopy
 
 
 class Minesweeper():
@@ -107,6 +108,7 @@ class Sentence():
         """
         if self.count == len(self.cells):
             return self.cells
+        return {}
 
     def known_safes(self):
         """
@@ -114,6 +116,7 @@ class Sentence():
         """
         if self.count == 0:
             return self.cells
+        return {}
 
     def mark_mine(self, cell):
         """
@@ -123,7 +126,6 @@ class Sentence():
         if cell in self.cells:
             self.cells.remove(cell)
             self.count = self.count - 1
-        return
 
     def mark_safe(self, cell):
         """
@@ -132,7 +134,6 @@ class Sentence():
         """
         if cell in self.cells:
             self.cells.remove(cell)
-        return
 
 
 class MinesweeperAI():
@@ -189,7 +190,62 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
         """
-        raise NotImplementedError
+        
+        # (1) & (2): mark the cell as a move that has been made and safe
+        self.moves_made.add(cell)
+        self.safes.add(cell)
+        
+        # (3): add new sentence to the AI's knowledge base
+        surrounding_cells = []
+        for i in range(-1, 2, 1):
+            for j in range(-1, 2, 1):
+                if (i != 0 or j != 0) and 0 <= cell[0] + i < self.height and 0 <= cell[1] + j < self.width:
+                    surrounding_cells.append((cell[0] + i, cell[1] + j))
+        new_sentence = Sentence(surrounding_cells, count)
+        if new_sentence not in self.knowledge:
+            self.knowledge.append(new_sentence)
+        
+        # (4): mark additional cells as safe or as mines
+        for knowledge in self.knowledge:
+            mines_detected = list(knowledge.known_mines())
+            safes_detected = list(knowledge.known_safes())
+            for mine in mines_detected:
+                self.mark_mine(mine)
+            for safe in safes_detected:
+                self.mark_safe(safe)
+        
+        # (5): add new sentences that can be inferred
+        knowledges_deepcopy = deepcopy(self.knowledge)
+        for knowledge1 in knowledges_deepcopy:
+            knowledges_deepcopy.remove(knowledge1)
+            for knowledge2 in knowledges_deepcopy:
+                if knowledge1.cells in knowledge2.cells:
+                    new_sentence = Sentence(knowledge2.cells - knowledge1.cells, knowledge2.count - knowledge1.count)
+                    if new_sentence not in self.knowledge:
+                        self.knowledge.append(new_sentence)
+                        knowledges_deepcopy.append(new_sentence)
+                elif knowledge2.cells in knowledge1.cells:
+                    new_sentence = Sentence(knowledge1.cells - knowledge2.cells, knowledge1.count - knowledge2.count)
+                    if new_sentence not in self.knowledge:
+                        self.knowledge.append(new_sentence)
+                        knowledges_deepcopy.append(new_sentence)
+                        mines_detected = list(knowledge.known_mines())
+            mines_detected = list(knowledge1.known_mines())
+            safes_detected = list(knowledge1.known_safes())
+            for mine in mines_detected:
+                self.mark_mine(mine)
+            for safe in safes_detected:
+                self.mark_safe(safe)
+                
+        # DEBUG PURPOSE
+        for sentence in self.knowledge:
+            print(sentence)
+        print(f"mines: {self.mines}")
+        print(f"safes: {self.safes}")
+        print(f"moves made: {self.moves_made}")
+        print("")
+        
+        return
 
     def make_safe_move(self):
         """
