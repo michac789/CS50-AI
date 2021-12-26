@@ -204,7 +204,7 @@ class MinesweeperAI():
         for i in range(self.height):
             for j in range(self.width):
                 if (i, j) in self.safes and (i, j) not in self.moves_made:
-                    safe_moves.appen((i, j))
+                    safe_moves.append((i, j))
         if len(safe_moves) == 0:
             return None
         return random.choice(safe_moves)
