@@ -24,14 +24,14 @@ class Minesweeper():
             self.board.append(row)
 
         # Add mines randomly
-        # while len(self.mines) != mines:
-        #     i = random.randrange(height)
-        #     j = random.randrange(width)
-        #     if not self.board[i][j]:
-        #         self.mines.add((i, j))
-        #         self.board[i][j] = True
-        for k in range(8):
-            self.board[7][k] = True
+        while len(self.mines) != mines:
+            i = random.randrange(height)
+            j = random.randrange(width)
+            if not self.board[i][j]:
+                self.mines.add((i, j))
+                self.board[i][j] = True
+        # for k in range(8):
+        #     self.board[7][k] = True
 
         # At first, player has found no mines
         self.mines_found = set()
@@ -189,7 +189,7 @@ class MinesweeperAI():
                         surrounding_cells.append((cell[0] + i, cell[1] + j))
         return surrounding_cells, count
     
-    # for all knowledge, mark new cells as safe or mines
+    # for all knowledge, mark new cells as safe or mines and update the internal knowledge
     def check_safes_and_mines(self):
         for knowledge in self.knowledge:
             new_mines = list(knowledge.known_mines())
@@ -198,6 +198,11 @@ class MinesweeperAI():
                 self.mark_mine(mine)
             for safe in new_safes:
                 self.mark_safe(safe)
+        for knowledge in self.knowledge:
+            for mine in self.mines:
+                knowledge.mark_mine(mine)
+            for safe in self.safes:
+                knowledge.mark_safe(safe)
             
     def add_knowledge(self, cell, count):
         """
@@ -226,10 +231,12 @@ class MinesweeperAI():
         new_sentence = Sentence(surrounding_cells, updated_count)
         if new_sentence not in self.knowledge:
             self.knowledge.append(new_sentence)
-            
+        
+        # (4): mark additional cells as safe or mine if it can be concluded
         self.check_safes_and_mines()
             
         # DEBUG PURPOSE
+        print("333")
         for sentence in self.knowledge:
             print(sentence)
         print(f"mines: {self.mines}")
@@ -237,52 +244,35 @@ class MinesweeperAI():
         print(f"moves made: {self.moves_made}")
         print("")
         
-        
-                
-        
-        
-        # (5): add new sentences that can be inferred
-        # knowledges_deepcopy = deepcopy(self.knowledge)
-        # for knowledge1 in knowledges_deepcopy:
-        #     knowledges_deepcopy.remove(knowledge1)
-        #     for knowledge2 in knowledges_deepcopy:
-        #         #print(f"k1: {knowledge1.cells}")
-        #         #print(f"k2: {knowledge2.cells}")
-        #         if knowledge1.cells.issubset(knowledge2.cells):
-        #             #print("1 in 2 ...")
-        #             new_sentence = Sentence(knowledge2.cells - knowledge1.cells, knowledge2.count - knowledge1.count)
-        #             if new_sentence not in self.knowledge:
-        #                 #print(f"appending: {new_sentence}")
-        #                 self.knowledge.append(new_sentence)
-        #                 knowledges_deepcopy.append(new_sentence)
-        #             new_mines = list(new_sentence.known_mines())
-        #             new_safes = list(new_sentence.known_safes())
-        #             for mine in new_mines:
-        #                 self.mark_mine(mine)
-        #             for safe in new_safes:
-        #                 self.mark_safe(safe)
-        #         elif knowledge2.cells.issubset(knowledge1.cells):
-        #             #print("2 in 1 ...")
-        #             new_sentence = Sentence(knowledge1.cells - knowledge2.cells, knowledge1.count - knowledge2.count)
-        #             if new_sentence not in self.knowledge:
-        #                 #print(f"appending: {new_sentence}")
-        #                 self.knowledge.append(new_sentence)
-        #                 knowledges_deepcopy.append(new_sentence)
-        #             new_mines = list(new_sentence.known_mines())
-        #             new_safes = list(new_sentence.known_safes())
-        #             for mine in new_mines:
-        #                 self.mark_mine(mine)
-        #                 knowledge.mark_mine(mine)
-        #             for safe in new_safes:
-        #                 self.mark_safe(cell)
+        # (5): keep on adding knowledge as long as there are still inferences from existing knowledge
+        new_inference = True
+        while (new_inference):
+            print("iteration:")
+            for i in self.knowledge:
+                print(i)
+            print("")
+            new_inference = False
+            self.check_safes_and_mines()
+            for knowledge in self.knowledge:
+                if len(knowledge.cells) == 0:
+                    self.knowledge.remove(knowledge)
+            knowledges_deepcopy = deepcopy(self.knowledge)
+            for knowledge1 in knowledges_deepcopy:
+                for knowledge2 in knowledges_deepcopy:
+                    if knowledge1.cells.issubset(knowledge2.cells) and knowledge1.cells != knowledge2.cells:
+                        new_sentence = Sentence(knowledge2.cells - knowledge1.cells, knowledge2.count - knowledge1.count)
+                        if new_sentence not in self.knowledge:
+                            new_inference = True
+                            self.knowledge.append(new_sentence)
+        self.check_safes_and_mines()
                 
         # DEBUG PURPOSE
-        # for sentence in self.knowledge:
-        #     print(sentence)
-        # print(f"mines: {self.mines}")
-        # print(f"safes: {self.safes}")
-        # print(f"moves made: {self.moves_made}")
-        # print("")
+        for sentence in self.knowledge:
+            print(sentence)
+        print(f"mines: {self.mines}")
+        print(f"safes: {self.safes}")
+        print(f"moves made: {self.moves_made}")
+        print("")
         
         return
 
@@ -302,7 +292,9 @@ class MinesweeperAI():
                     safe_moves.append((i, j))
         if len(safe_moves) == 0:
             return None
-        return random.choice(safe_moves)
+        moves_made = random.choice(safe_moves)
+        print(f"tiles clicked = {moves_made}")
+        return moves_made
 
     def make_random_move(self):
         """
@@ -318,4 +310,6 @@ class MinesweeperAI():
                     random_moves.append((i, j))
         if len(random_moves) == 0:
             return None
-        return random.choice(random_moves)
+        moves_made = random.choice(random_moves)
+        print(f"tiles clicked = {moves_made}")
+        return moves_made
