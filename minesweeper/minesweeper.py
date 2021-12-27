@@ -236,7 +236,7 @@ class MinesweeperAI():
         self.check_safes_and_mines()
             
         # DEBUG PURPOSE
-        print("333")
+        print("mid debug: ")
         for sentence in self.knowledge:
             print(sentence)
         print(f"mines: {self.mines}")
@@ -293,7 +293,7 @@ class MinesweeperAI():
         if len(safe_moves) == 0:
             return None
         moves_made = random.choice(safe_moves)
-        print(f"tiles clicked = {moves_made}")
+        print(f"Tiles clicked = {moves_made}")
         return moves_made
 
     def make_random_move(self):
@@ -311,5 +311,5 @@ class MinesweeperAI():
         if len(random_moves) == 0:
             return None
         moves_made = random.choice(random_moves)
-        print(f"tiles clicked = {moves_made}")
+        print(f"Tiles clicked = {moves_made}")
         return moves_made
