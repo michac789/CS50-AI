@@ -65,6 +65,8 @@ def transition_model(corpus, page, damping_factor):
             prob = 1 / len(corpus.get(page))
         probability = (1 - damping_factor) / len(corpus) + (damping_factor * prob)
         result_dict[webpage] = probability
+        if len(corpus.get(page)) == 0:
+            result_dict[webpage] = 1 / len(corpus)
     return result_dict
 
 
