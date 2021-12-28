@@ -3,6 +3,7 @@ import random
 import re
 import sys
 import numpy
+import copy
 
 DAMPING = 0.85
 SAMPLES = 10000
@@ -99,7 +100,23 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    pagerank_dict = {}
+    for webpage in corpus:
+        pagerank_dict[webpage] = 1 / len(corpus)
+    accurate3dp = False
+    while not accurate3dp:
+        accurate3dp = True
+        dict_copy = copy.deepcopy(pagerank_dict)
+        for webpage in corpus:
+            new_value = 0
+            for webpage2 in corpus:
+                model = transition_model(corpus, webpage2, damping_factor)
+                new_value = new_value + dict_copy[webpage2] * model.get(webpage)
+            pagerank_dict[webpage] = new_value
+        for webpage in pagerank_dict:
+            if abs(pagerank_dict[webpage] - dict_copy[webpage]) > 0.001:
+                accurate3dp = False
+    return pagerank_dict
 
 
 if __name__ == "__main__":
