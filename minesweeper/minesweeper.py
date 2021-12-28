@@ -185,7 +185,7 @@ class MinesweeperAI():
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
             
-    # return surrounding cells whose state is indetermined with appropriate count
+    # Return surrounding cells whose state is indetermined with appropriate count
     def new_sentence(self, cell, count):
         new_count = count
         surrounding_cells = []
@@ -198,7 +198,7 @@ class MinesweeperAI():
                         surrounding_cells.append((cell[0] + i, cell[1] + j))
         return surrounding_cells, new_count
     
-    # for all knowledge, mark new cells as safe or mines and update the internal knowledge
+    # For all knowledge, mark new cells as safe or mines and update the internal knowledge
     def check_safes_and_mines(self):
         for knowledge in self.knowledge:
             new_mines = list(knowledge.known_mines())
@@ -213,13 +213,39 @@ class MinesweeperAI():
             for safe in self.safes:
                 knowledge.mark_safe(safe)
                 
-    def debug(self):
+    # Using sample values to spot bugs and errors
+    def debug(self, breakpoint, hide):
+        print(f"********** Checkpoint {breakpoint} **********")
+        if hide == False:
+            for knowledge in self.knowledge:
+                print(knowledge)
+            print(f"mines: {self.mines}")
+            print(f"safes: {self.safes - self.moves_made}")
+            print(f"moves made: {self.moves_made}")
+        bug = False
         all_mines = {(1, 1), (1, 6), (3, 6), (4, 1), (4, 2), (6, 2), (6, 5), (7, 7)}
         all_safes = {(i, j) for i in range(8) for j in range(8)} - all_mines
+        for knowledge in self.knowledge:
+            cells = list(knowledge.cells)
+            count = 0
+            for cell in cells:
+                if cell in all_mines:
+                    count = count + 1
+            if knowledge.count != count:
+                print("ERROR KNOWLEDGE")
+                bug = True
+                print(f"Knowledge: {knowledge}")
         if self.mines.issubset(all_mines) == False:
-            print("ERROR")
+            print("ERROR MINES")
+            bug = True
         if self.safes.issubset(all_safes) == False:
-            print("ERROR")
+            print("ERROR SAFE")
+            bug = True
+        if bug == False:
+            print("DEBUGGING COMPLETE - NO BUG SPOTTED!\n")
+        else:
+            print("WARNING!!! THERE ARE ERRORS SPOTTED!")
+            print(f"Breakpoint: {breakpoint}\n")
             
     def add_knowledge(self, cell, count):
         """
@@ -242,58 +268,51 @@ class MinesweeperAI():
         self.safes.add(cell)
         for knowledge in self.knowledge:
             knowledge.mark_safe(cell)
+            
+        self.debug("1", True)
         
         # (3): add new sentence to the AI's knowledge base
         surrounding_cells, updated_count = self.new_sentence(cell, count)
         new_sentence = Sentence(surrounding_cells, updated_count)
-        if new_sentence not in self.knowledge:
+        if new_sentence not in self.knowledge and new_sentence.cells != set():
             self.knowledge.append(new_sentence)
+            
+        self.debug("2", True)
         
         # (4): mark additional cells as safe or mine if it can be concluded
         self.check_safes_and_mines()
-            
-        # DEBUG PURPOSE
-        print("mid debug: ")
-        for sentence in self.knowledge:
-            print(sentence)
-        print(f"mines: {self.mines}")
-        print(f"safes: {self.safes - self.moves_made}")
-        print(f"moves made: {self.moves_made}")
-        print("")
+        
+        self.debug("3", True)
         
         # (5): keep on adding knowledge as long as there are still inferences from existing knowledge
         new_inference = True
         while (new_inference):
             new_inference = False
             for knowledge in self.knowledge:
-                print("ho")
                 if knowledge.cells == set():
-                    print("deleted")
                     self.knowledge.remove(knowledge)
+                    
+            self.debug("4a", True)
+            
             self.check_safes_and_mines()
-            print("iteration:")
-            for i in self.knowledge:
-                print(i)
-            print("")
+            
+            self.debug("4b", True)
+            
             knowledges_deepcopy = deepcopy(self.knowledge)
             for knowledge1 in knowledges_deepcopy:
                 for knowledge2 in knowledges_deepcopy:
                     if knowledge1.cells.issubset(knowledge2.cells) and knowledge1.cells != knowledge2.cells:
                         new_sentence = Sentence(knowledge2.cells - knowledge1.cells, knowledge2.count - knowledge1.count)
-                        if new_sentence not in self.knowledge:
+                        if new_sentence not in self.knowledge and new_sentence.cells != set():
                             new_inference = True
                             self.knowledge.append(new_sentence)
+                            
+            self.debug("4c", True)
+            
         self.check_safes_and_mines()
                 
         # DEBUG PURPOSE
-        for sentence in self.knowledge:
-            print(sentence)
-        print(f"mines: {self.mines}")
-        print(f"safes: {self.safes - self.moves_made}")
-        print(f"moves made: {self.moves_made}")
-        print("")
-        self.debug()
-        print("")
+        self.debug("5", True)
         
         return
 
