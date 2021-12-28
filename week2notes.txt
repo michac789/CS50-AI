@@ -1,0 +1,47 @@
+Week 2 - Uncertainty
+
+- Probability
+0 <= P(w) <= 1; Sigma(P(w)) = 1
+Unconditional probability: degree of belief with the absence of other evidence
+Conditional probability: degree of belief given a proposition or evidence
+P(a|b): P(a) given that b
+P(a|b)=P(a^b)/P(b)
+Random variable: a variable in probability theory with domain of possible values it can take on
+Independence: knowledge that one event occur does not affect probability of the other event
+P(a^b)=P(a)P(b) if it is independent
+Bayes' Rule: P(b|a)=P(a|b)P(b)/P(a)
+Joint probability: negation rule; using tables
+Inclusion-exclusion: P(avb)=P(a)+P(b)-P(a^b)
+Marginalization: P(a)=P(a,b)+P(a,-b)
+Conditioning: P(a)=P(a|b)P(b)+P(a|-b)P(-b)
+
+- Bayesian Network
+Data structure that represents dependencies among random varibles
+> Directed graph, each node represents random variable, 
+arrow from X to Y means X is parent of Y, prob distribution: P(X|Parents(X))
+> Computing joint probabilities from bayesian network
+> Inference (in probabilistic settings):
+Query X: variable for which to compute distribution
+Evidence variables E: observed variable for events e
+Hidden variables Y: non-evidence, non-query variable
+Goal: calculate P(X|e)
+P(X|e)=aP(X|e)=a sigma'y'(P(X,e,y))
+> Library ex: pomegranate
+> Approximate inference through sampling
+> Likelihood weighting: fixing the values for evidence variables
+sample the non-evidence variables using conditional probabilities in Bayesian network
+weight each sample by its likelihood; probability of all of the evidence
+
+- Markov Models
+> Uncertainty after a certain period of time
+> Markov assumption: curent state depends on only a finite fixed number of previous states
+> Markov chain: sequence of random variables where the distribution follows the markov assumption
+*representation in a matrix
+transition model: relating current state with the next state (X(t) to X(t+1))
+*using pomegranate: sample some number of states in a Markov chain
+> sensor models: discover underlying hidden state based on observation
+> Hidden Markov Model: a Markov model for a sysetm with hidden states that generate some observed events
+> filtering: given observations from start until now, calculate distribution for current state
+> prediction: --/-- future state
+> smoothing: --/-- past state
+> most likely explanation: --/-- calculate most likely sequence of states

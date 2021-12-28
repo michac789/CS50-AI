@@ -1,4 +1,4 @@
-Week 1
+Week 1 - Knowledge
 
 - Knowledge:
 sentence: an assertion about the world in a knowledge representation language
