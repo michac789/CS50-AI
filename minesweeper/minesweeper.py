@@ -214,9 +214,9 @@ class MinesweeperAI():
                 knowledge.mark_safe(safe)
                 
     # Using sample values to spot bugs and errors
-    def debug(self, breakpoint, hide):
+    def debug(self, breakpoint, show):
         print(f"********** Checkpoint {breakpoint} **********")
-        if hide == False:
+        if show:
             for knowledge in self.knowledge:
                 print(knowledge)
             print(f"mines: {self.mines}")
@@ -234,7 +234,7 @@ class MinesweeperAI():
             if knowledge.count != count:
                 print("ERROR KNOWLEDGE")
                 bug = True
-                print(f"Knowledge: {knowledge}")
+                print(f"Knowledge: {knowledge}, expected count: {count}")
         if self.mines.issubset(all_mines) == False:
             print("ERROR MINES")
             bug = True
@@ -282,7 +282,7 @@ class MinesweeperAI():
         # (4): mark additional cells as safe or mine if it can be concluded
         self.check_safes_and_mines()
         
-        self.debug("3", True)
+        self.debug("3", False)
         
         # (5): keep on adding knowledge as long as there are still inferences from existing knowledge
         new_inference = True
@@ -291,12 +291,10 @@ class MinesweeperAI():
             for knowledge in self.knowledge:
                 if knowledge.cells == set():
                     self.knowledge.remove(knowledge)
-                    
-            self.debug("4a", True)
+            self.debug("4a", False)
             
             self.check_safes_and_mines()
-            
-            self.debug("4b", True)
+            self.debug("4b", False)
             
             knowledges_deepcopy = deepcopy(self.knowledge)
             for knowledge1 in knowledges_deepcopy:
@@ -305,15 +303,11 @@ class MinesweeperAI():
                         new_sentence = Sentence(knowledge2.cells - knowledge1.cells, knowledge2.count - knowledge1.count)
                         if new_sentence not in self.knowledge and new_sentence.cells != set():
                             new_inference = True
-                            self.knowledge.append(new_sentence)
-                            
-            self.debug("4c", True)
+                            self.knowledge.append(new_sentence)      
+            self.debug("4c", False)
             
         self.check_safes_and_mines()
-                
-        # DEBUG PURPOSE
-        self.debug("5", True)
-        
+        self.debug("5", False)
         return
 
     def make_safe_move(self):
@@ -333,7 +327,7 @@ class MinesweeperAI():
         if len(safe_moves) == 0:
             return None
         moves_made = random.choice(safe_moves)
-        print(f"Tiles clicked = {moves_made}")
+        print(f"____________________\nTiles clicked = {moves_made}")
         return moves_made
 
     def make_random_move(self):
@@ -351,5 +345,5 @@ class MinesweeperAI():
         if len(random_moves) == 0:
             return None
         moves_made = random.choice(random_moves)
-        print(f"Tiles clicked = {moves_made}")
+        print(f"____________________\nTiles clicked = {moves_made}")
         return moves_made
