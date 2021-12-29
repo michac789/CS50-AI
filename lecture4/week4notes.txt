@@ -1,0 +1,50 @@
+Week 4 Notes - Learning
+
+- Supervised learning
+given a data set of input-output pairs, learn a function to map inputs to outputs
+classification: supervised learning task of learning a function mapping an input point to a discret category
+come up a hypothesis function h to agree as much as possible with a complex function f
+> nearest-neighbor classification
+algorithm that, given an input, chooses the class of the nearest data point to that input
+> k-nearest-neighbor classification
+--/-- chooses the most common class out of the k nearest data points to that input
+> perceptron learning
+using linear regression; representation using weight vector
+wi=wi+a(y-h(x)) X xi
+> support vector machines
+maximum margin seperator: boundary that maximises the distance between any of the data points
+> regression
+supervised learning task of learning a function mapping an input point to a continuous value
+> loss function
+function that expresses how poorly our hypothesis performs
+L1 loss function: L(actual, predicted)=abs(actual-predicted); L2: use (actual-predicted)^2
+> overfitting
+a model that fits too closely to a particular data set and therefore may fail to generalize future data
+regularization: cost(h)=loss(h)+(lambda)complexity(h) (penalizing hypothesis that are more complex)
+> holdout cross-validation
+splitting data into training test and test set, such that learning happens on the training set and evaluated on test
+k-fold cross--validation: train on (k-1) set and test on the other 1, repeat and take the average
+*scikit-learn: library in python (see in source code); Perceptron(), SVC(), KNeighboursClassifier(..)
+
+- Reinforcement Learning
+given a set of rewards or punishments, learn what actions to take in the future
+there is environment and agent; how to train robots
+> Markov Decision Process: model for decision-making, representing states, actions and their rewards
+set of states S, set of actions Actions(s), transition model P(s'|s,a), reward function R(s,a,s')
+> Q-learning: method for learning a function Q(s,a), estimate of the value of performing action a in state s
+Start with Q(s,a)=0 for all s,a
+When we taken an action and receive a reward:
+estimate the value of Q(s,a) based on current reward and expected future rewards
+update Q(s,a) to take into account old estimate as well as our new estimate
+> Greedy decision-making: when in state s, choose action a with highest Q(s,a)
+> Epsilon-greedy: explore VS exploit; with probability e, choose a random move, else best move
+*ex: Nim
+> Function approximation: approximating Q(s,a), often by a function combining various features, 
+rather than storing one value for every state-action pair
+
+- Unsupervised learning
+given input data without any additional feedback, learn patterns
+> clustering: organizing a set of objects into groups in such a way that similar objects tend to be in the same group
+some application: genetic research, image segmentation, market research, medical imaging, social network analysis
+> k-means clustering: algorithm for clustering data based on repeatedly assigning points to clusters and updating 
+those clusters' centre
