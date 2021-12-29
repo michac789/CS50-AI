@@ -194,8 +194,12 @@ def normalize(probabilities):
     is normalized (i.e., sums to 1, with relative proportions the same).
     """
     for person in probabilities:
+        
+        # Calculate normalizing constants, so that the sum equals to 1
         alpha = 1 / (probabilities[person]['gene'].get(0) + probabilities[person]['gene'].get(1) + probabilities[person]['gene'].get(2))
         beta = 1 / (probabilities[person]['trait'].get(True) + probabilities[person]['trait'].get(False))
+        
+        # Multiply each probability value with the normalizing constants alpha and beta
         for i in range(3):
             probabilities[person]['gene'][i] *= alpha
         for trait in [True, False]:
