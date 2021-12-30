@@ -1,6 +1,7 @@
 import math
 import random
 import time
+from typing import get_args
 
 
 class Nim():
@@ -120,7 +121,7 @@ class NimAI():
         `alpha` is the learning rate, and `new value estimate`
         is the sum of the current reward and estimated future rewards.
         """
-        raise NotImplementedError
+        self.q[tuple(state), action] = old_q + self.alpha * (future_rewards + reward - old_q)
 
     def best_future_reward(self, state):
         """
@@ -132,7 +133,11 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        raise NotImplementedError
+        max_q = 0
+        for action in Nim.available_actions(state):
+            if self.get_q_value(state, action) > max_q:
+                max_q = self.get_q_value(state, action)
+        return max_q
 
     def choose_action(self, state, epsilon=True):
         """
@@ -149,6 +154,7 @@ class NimAI():
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
         """
+        
         raise NotImplementedError
 
 
