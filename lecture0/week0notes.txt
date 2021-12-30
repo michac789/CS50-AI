@@ -1,4 +1,4 @@
-Week 0
+Week 0 - Search
 
 - Modules overview in this course:
 Search, Knowledge, Uncertainty, Optimization, Learning, Neural Networks, Language

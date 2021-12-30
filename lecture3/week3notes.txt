@@ -1,4 +1,4 @@
-Week 3 Notes
+Week 3 - Optimization
 
 Optimization: choosing the best option from a set of option
 

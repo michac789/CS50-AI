@@ -1,0 +1,26 @@
+Week 5 - Neural Networks
+
+- Neural Networks
+neurons are connected to and receive electrical signals from other neurons; process input signals and can be activated
+Artificial Neural Network: model mathematical function from inputs to outputs based on the network (structure/parameter)
+> gradient-descent: mathematical algorithm for minimizing loss when training neural network
+start with a random choice, repeat: calculate gradient and update weights to the direction that lead to decreasing loss
+stochastic gradient descent: calculate gradient based on one data point; easier to compute but less accurate
+mini-batch gradient descent: based on one small batch
+> multilayer neural network: using backpropagation to train neural network with multiple layer
+start with random choice, repeat: calculate error for output layer, for each layer starting with output layer,
+move inwards towards earliest hidden layer and propagate error back one layer, then update weights
+> deep neural networks: neural network with multiple hidden layers
+> overfitting problem: dropout (temporarily removing units selected at random to prevent over-reliance)
+*tensorflow: playground.tensorflow.org
+> computer vision: computational methods for analyzing and understanding digital images
+> image convolution: applying a filter that adds each pixel value of an image to its neighbors,
+weighted according to a kernel matrix
+*ex: PIL library; see source code
+> pooling: reducing the size of an input by sampling from regions in the input
+max-pooling: by choosing maximum value
+> convolutional neural network: neural network that uses convolution, usually for analyzing image
+image with many pixels --convolution--> ... --pooling--> ... --flattening--> neural network with hidden layers
+*mnist: handwriting dataset; see source code
+> recurrent neural network: output from the network passed back to the network again
+*ex: microsoft captionbot, google translate
