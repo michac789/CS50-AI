@@ -2,7 +2,7 @@ Week 4 Notes - Learning
 
 - Supervised learning
 given a data set of input-output pairs, learn a function to map inputs to outputs
-classification: supervised learning task of learning a function mapping an input point to a discret category
+classification: supervised learning task of learning a function mapping an input point to a discrete category
 come up a hypothesis function h to agree as much as possible with a complex function f
 > nearest-neighbor classification
 algorithm that, given an input, chooses the class of the nearest data point to that input
