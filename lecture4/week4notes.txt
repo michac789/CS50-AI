@@ -41,6 +41,7 @@ update Q(s,a) to take into account old estimate as well as our new estimate
 *ex: Nim
 > Function approximation: approximating Q(s,a), often by a function combining various features, 
 rather than storing one value for every state-action pair
+Q(s, a) <- old value estimate + alpha * (new value estimate - old value estimate)
 
 - Unsupervised learning
 given input data without any additional feedback, learn patterns
