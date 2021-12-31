@@ -59,7 +59,7 @@ def load_data(data_dir):
     corresponding `images`.
     """
     images, labels = [], []
-    for i in range(3):
+    for i in range(NUM_CATEGORIES):
         files = os.listdir(os.path.join(data_dir, f'{i}'))
         for file in files:
             path_name = os.path.join(data_dir, f'{i}', f'{file}')
@@ -75,21 +75,26 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
-    model = tf.keras.Sequential()
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)),
+        tf.keras.layers.MaxPooling2D(pool_size = (2, 2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+    ])
     
-    model.add(tf.keras.Input(shape = (IMG_WIDTH, IMG_HEIGHT, 3)))
-    model.add(tf.keras.layers.Conv2D(32, (3, 3), activation="relu"))
-    model.add(tf.keras.layers.MaxPooling2D(pool_size = (2, 2)))
+    #model.add(tf.keras.Input(shape = (IMG_WIDTH, IMG_HEIGHT, 3)))
+    # model.add(tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape = (IMG_WIDTH, IMG_HEIGHT, 3)))
+    # model.add(tf.keras.layers.MaxPooling2D(pool_size = (2, 2)))
     
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(128, activation="relu"))
-    model.add(tf.keras.layers.Dropout(0.5))
+    # model.add(tf.keras.layers.Flatten())
+    # model.add(tf.keras.layers.Dense(128, activation="relu"))
+    # model.add(tf.keras.layers.Dropout(0.5))
     
-    model.compile(
-    optimizer="adam",
-    loss="categorical_crossentropy",
-    metrics=["accuracy"]
-    )
+    # tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+
+    model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
     
     return model
 
