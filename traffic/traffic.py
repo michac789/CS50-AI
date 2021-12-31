@@ -66,6 +66,7 @@ def load_data(data_dir):
             image = cv2.resize(cv2.imread(path_name), (IMG_WIDTH, IMG_HEIGHT))
             images.append(image)
         labels.extend(i for file in files)
+        print(f"Loading data... ({i}/{NUM_CATEGORIES} completed)")
     return (images, labels)
 
 
