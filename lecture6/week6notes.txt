@@ -1,0 +1,51 @@
+Week 6 - Language
+
+- Natural Language Processing
+automatic summarization, information extraction, language identification, machine translation, 
+named entry recognition, speech recognition, text classification, word sense disambiguation
+
+- Syntax and Semantics
+formal grammar: a system of rules for generating sentences in a language
+context-free grammar: 
+ex: she saw the city (terminal symbols) -> N V D N (types of speech / non-terminal symbols)
+NP (noun phrase): N | D N (determiner + noun)
+VP (verb phrase): V | V NP
+S (sentence) -> NP VP
+*represented using syntax tree
+
+- NLTK (natural language tool kit) Library in Python
+*see source code
+n-gram: a contiguous sequence of n items from a sample of text
+character n-gram: a contiguous sequence of n characters from a sample of text (unigram, bigram, tigrams, ...)
+word n-gram: a contiguous sequence of n words from a sample of text
+tokenization: the task of splitting a sequence of characters into pieces (tokens)
+markov model: *markovify library in python to train text and come up with markov model
+
+- Text Categorization
+ex: different product reviews; categorize into positive or negative sentiments
+bag-of-words model: model that represents text as an unordered collection of words
+naive bayes approach: P(positive sentiment| word1, word2, ...) = P(+)P(word1|+)P(word2|+)..
+assume that every word is independent
+additive smoothing / laplace smoothing: adding alpha to each value in our distribution
+
+- Information Retrieval
+the task of finding relevant documents in response to a user query
+topic modeling: models for discovering the topics for a set of documents
+term frequency: number of times a term appears in a document
+*tf-idf:
+ranking of what words are important in a document by multiplying the term frequency by the inverse document frequency
+function words (am, by, do, is, which, with, yet, ..): connecting words that does not really influence the meaning
+content words (algorithm, category, computer, ..): important key words
+inverse document frequency:
+log((total documents)/(num documents containing word))
+
+- Information Extraction
+the task of extracting knowledge from documents; using automated templates generator
+*see source code
+WordNet: research on words; take one word and take it with another related word
+
+- Word Representation
+one-hot representation: representation of meaning as a vector with a single 1, and with other values as 0
+distributive representation: representation of meaning distributed across multiple values
+*word2vec: model for generating word vectors
+*skip-gram architecture: neural network architecture for predicting context word given a target word
