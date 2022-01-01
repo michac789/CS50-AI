@@ -1,4 +1,5 @@
 import nltk
+nltk.download('punkt')
 import sys
 
 TERMINALS = """
@@ -62,7 +63,9 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    raise NotImplementedError
+    words = []
+    words.extend([word.lower() for word in nltk.word_tokenize(sentence) if any (c.isalpha() for c in word)])
+    return words
 
 
 def np_chunk(tree):
