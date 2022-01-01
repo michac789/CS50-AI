@@ -67,9 +67,8 @@ def tokenize(document):
     Process document by coverting all words to lowercase, and removing any
     punctuation or English stopwords.
     """
-    words = [word.lower() for word in nltk.word_tokenize(document) if 
+    return [word.lower() for word in nltk.word_tokenize(document) if 
             (word not in nltk.corpus.stopwords.words("english") and not (any (x in word for x in string.punctuation)))]
-    return words
 
 
 def compute_idfs(documents):
@@ -97,7 +96,13 @@ def top_files(query, files, idfs, n):
     to their IDF values), return a list of the filenames of the the `n` top
     files that match the query, ranked according to tf-idf.
     """
-    raise NotImplementedError
+    file_scores = {}
+    for file, docs in files.items():
+        score = 0
+        for word in query:
+            score += docs.count(word) * idfs[word]
+        file_scores[file] = score
+    return [file[0] for file in sorted(file_scores.items(), key = lambda item: item[1])[:3]]
 
 
 def top_sentences(query, sentences, idfs, n):
