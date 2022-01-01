@@ -102,7 +102,7 @@ def top_files(query, files, idfs, n):
         for word in query:
             score += docs.count(word) * idfs[word]
         file_scores[file] = score
-    return [file[0] for file in sorted(file_scores.items(), key = lambda item: item[1])[:3]]
+    return [file[0] for file in sorted(file_scores.items(), key = lambda item: item[1])[:n]]
 
 
 def top_sentences(query, sentences, idfs, n):
