@@ -3,7 +3,6 @@ import sys
 import os
 import string
 import numpy
-import math
 
 FILE_MATCHES = 1
 SENTENCE_MATCHES = 1
@@ -96,13 +95,13 @@ def top_files(query, files, idfs, n):
     to their IDF values), return a list of the filenames of the the `n` top
     files that match the query, ranked according to tf-idf.
     """
-    file_scores = {}
+    scores_dict = {}
     for file, docs in files.items():
         score = 0
         for word in query:
             score += docs.count(word) * idfs[word]
-        file_scores[file] = score
-    return [file[0] for file in sorted(file_scores.items(), key = lambda item: item[1])[:n]]
+        scores_dict[file] = score
+    return [file[0] for file in sorted(scores_dict.items(), key = lambda item: item[1])[0:n]]
 
 
 def top_sentences(query, sentences, idfs, n):
@@ -113,7 +112,14 @@ def top_sentences(query, sentences, idfs, n):
     the query, ranked according to idf. If there are ties, preference should
     be given to sentences that have a higher query term density.
     """
-    raise NotImplementedError
+    scores_dict = {}
+    for sentence, words in sentences.items():
+        idf = 0
+        for word in query:
+            if word in words:
+                idf += idfs[word]
+        scores_dict[sentence] = [idf, sum(words.count(word) for word in query) / len(words)]
+    return [sentence[0] for sentence in sorted(scores_dict.items(), key = lambda item: (item[1][0], item[1][1]), reverse = True)[0:n]]
 
 
 if __name__ == "__main__":
