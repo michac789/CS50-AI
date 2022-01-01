@@ -1,5 +1,4 @@
 import nltk
-nltk.download('punkt')
 import sys
 
 TERMINALS = """
@@ -67,9 +66,7 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    words = []
-    words.extend([word.lower() for word in nltk.word_tokenize(sentence) if any (c.isalpha() for c in word)])
-    return words
+    return [word.lower() for word in nltk.word_tokenize(sentence) if any (c.isalpha() for c in word)]
 
 
 def np_chunk(tree):
@@ -79,7 +76,13 @@ def np_chunk(tree):
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    raise NotImplementedError
+    np_chunk = [subtree for subtree in tree.subtrees(filter = lambda x: x.label() == 'NP')]
+    list_copy = np_chunk[:]
+    for i in range(len(np_chunk)):
+        for j in range(len(np_chunk)):
+            if i != j and list_copy[i] in list_copy[j]:
+                np_chunk.remove(list_copy[j])
+    return np_chunk
 
 
 if __name__ == "__main__":
