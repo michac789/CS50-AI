@@ -98,7 +98,8 @@ def top_files(query, files, idfs, n):
     for file, docs in files.items():
         score = 0
         for word in query:
-            score += docs.count(word) * idfs[word]
+            if word in idfs.keys():
+                score += docs.count(word) * idfs[word]
         scores_dict[file] = score
     return [file[0] for file in sorted(scores_dict.items(), key = lambda item: item[1])[0:n]]
 
