@@ -117,11 +117,11 @@ class CrosswordCreator():
         """
         domains = deepcopy(self.domains)
         modified = False
-        if self.crossword.overlaps[(x, y)] != None:
+        if self.crossword.overlaps[x, y] != None:
             for word_x in domains[x]:
                 possible_value = False
                 for word_y in domains[y]:
-                    if word_x[self.crossword.overlaps[(x, y)][0]] == word_y[self.crossword.overlaps[(x, y)][1]]:
+                    if word_x[self.crossword.overlaps[x, y][0]] == word_y[self.crossword.overlaps[x, y][1]]:
                         possible_value = True
                 if possible_value == False:
                     self.domains[x].remove(word_x)
@@ -137,18 +137,22 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
-        domains = deepcopy(self.domains)
-        # for neighbor in self.crossword.neighbors:
-        #     print(neighbor)
-        for domain in domains:
-            for d2 in domains:
-                if domain != d2:
-                    print(domain)
-                    print(d2)
-                    self.revise(domain, d2)
-        
-        #     print(domains[domain])
-        raise NotImplementedError
+        queue = arcs
+        if arcs == None:
+            queue = []
+            for word1 in self.domains:
+                for word2 in self.domains:
+                    if word1 != word2:
+                        queue.append((word1, word2))
+        while len(queue) != 0:
+            if self.revise(queue[0][0], queue[0][1]):
+                if len(self.domains[queue[0][0]]) == 0:
+                    return False
+                for neighbor in self.crossword.neighbors(queue[0][0]):
+                    if neighbor != queue[0][1]:
+                        queue.append((neighbor, queue[0][0]))
+            queue.remove((queue[0][0], queue[0][1]))
+        return True
 
     def assignment_complete(self, assignment):
         """
