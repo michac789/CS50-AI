@@ -137,21 +137,20 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
-        queue = arcs
         if arcs == None:
-            queue = []
+            arcs = []
             for word1 in self.domains:
                 for word2 in self.domains:
                     if word1 != word2:
-                        queue.append((word1, word2))
-        while len(queue) != 0:
-            if self.revise(queue[0][0], queue[0][1]):
-                if len(self.domains[queue[0][0]]) == 0:
+                        arcs.append((word1, word2))
+        while len(arcs) != 0:
+            if self.revise(arcs[0][0], arcs[0][1]):
+                if len(self.domains[arcs[0][0]]) == 0:
                     return False
-                for neighbor in self.crossword.neighbors(queue[0][0]):
-                    if neighbor != queue[0][1]:
-                        queue.append((neighbor, queue[0][0]))
-            queue.remove((queue[0][0], queue[0][1]))
+                for neighbor in self.crossword.neighbors(arcs[0][0]):
+                    if neighbor != arcs[0][1]:
+                        arcs.append((neighbor, arcs[0][0]))
+            arcs.remove((arcs[0][0], arcs[0][1]))
         return True
 
     def assignment_complete(self, assignment):
@@ -170,15 +169,16 @@ class CrosswordCreator():
         puzzle without conflicting characters); return False otherwise.
         """
         used_words = []
-        for variable in assignment:
-            if assignment[variable] in used_words:
+        for var in assignment:
+            if assignment[var] in used_words:
                 return False
-            used_words.append(assignment[variable])
-            if variable.length != len(assignment[variable]):
+            used_words.append(assignment[var])
+            if var.length != len(assignment[var]):
                 return False
-            for neighbor in assignment:
-                if assignment[variable][self.crossword.overlaps[(variable, neighbor)][0]] != assignment[variable][self.crossword.overlaps[(variable, neighbor)][1]]:
-                    return False
+            for nb in assignment:
+                if var != nb and self.crossword.overlaps[var, nb] != None:
+                    if assignment[var][self.crossword.overlaps[var, nb][0]] != assignment[nb][self.crossword.overlaps[var, nb][1]]:
+                        return False
         return True
 
     def order_domain_values(self, var, assignment):
@@ -209,8 +209,8 @@ class CrosswordCreator():
 
         If no assignment is possible, return None.
         """
-        print(assignment)
-        x = self.assignment_complete(assignment)
+        #print(assignment)
+        #x = self.assignment_complete(assignment)
         raise NotImplementedError
 
 
