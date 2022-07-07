@@ -27,8 +27,8 @@ class CrosswordCreator():
         for variable, word in assignment.items():
             direction = variable.direction
             for k in range(len(word)):
-                i = variable.i + (k if direction == Variable.DOWN else 0)
-                j = variable.j + (k if direction == Variable.ACROSS else 0)
+                i = variable.i + (k if direction == variable.DOWN else 0)
+                j = variable.j + (k if direction == variable.ACROSS else 0)
                 letters[i][j] = word[k]
         return letters
 
@@ -245,7 +245,7 @@ def main():
     output = sys.argv[3] if len(sys.argv) == 4 else None
 
     # Generate crossword
-    crossword = Crossword(structure, words)
+    crossword = crossword(structure, words)
     creator = CrosswordCreator(crossword)
     assignment = creator.solve()
 
