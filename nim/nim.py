@@ -3,10 +3,11 @@ import random
 import time
 from typing import get_args
 
+PILES = [1, 3, 5, 7]
 
 class Nim():
 
-    def __init__(self, initial=[1, 3, 5, 7]):
+    def __init__(self, initial=PILES):
         """
         Initialize game board.
         Each game board has

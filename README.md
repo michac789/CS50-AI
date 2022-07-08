@@ -16,9 +16,7 @@ Assuming you have python installed, go to the project directory and run the foll
 
 ```powershell
     # the 'large' folder contains actual data from IMDB in csv format
-    # please do not move or rename the 'large' folder or else this code won't work
-    # the 'small' folder is there for testing purpose only
-    # you can also try typing python degrees.py small to play around with the sample data
+    # you can also try typing python degrees.py small to play around with a smaller data (for testing purpose)
     python degrees.py large
 ```
 
@@ -28,7 +26,7 @@ You will then be prompted to enter 2 names, please enter any 2 actors you know. 
 
 ### Tictactoe - Explanation
 
-Implementing a simple Tic-Tac-Toe game functionality, along with an AI player that makes optimal move as either 'X' or 'O'. The AI never loses, it will always at least be a draw (if you play optimally), or a win for the AI if the human does not play optimally. The AI involves adverserial search using minimax algorithm with alpha-beta pruning.
+Implementing a simple Tic-Tac-Toe game functionality, along with an AI player that makes optimal move as either 'X' or 'O'. The AI never loses, it will always at least be a draw (if you play optimally), or a win for the AI if the human does not play optimally. The AI involves adverserial search using minimax algorithm with alpha-beta pruning (see pseudocode [here](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning#Pseudocode)).
 
 ### Tictactoe - How To Run
 
@@ -76,7 +74,7 @@ A pygame window will appear and you can play the game using your mouse or let th
 
 ### Pagerank - Explanation
 
-This program replicates [Google's pagerank algorithm](https://en.wikipedia.org/wiki/PageRank) which is used to rank websites based on importance. This project uses two different approach, first being the random surfer model which represents a user randomly clicking links for very many times. The second approach uses the formal iterative approach formula with the consideration of damping factor. Concepts involved in this project including probability theory, sampling and Markov Chain.
+This program replicates [Google's pagerank algorithm](https://en.wikipedia.org/wiki/PageRank#Algorithm) which is used to rank websites based on importance. This project uses two different approach, first being the random surfer model which represents a user randomly clicking links for very many times. The second approach uses the formal iterative approach formula with the consideration of damping factor. Concepts involved in this project including probability theory, sampling and Markov Chain.
 
 ### Pagerank - How To Run
 
@@ -92,7 +90,7 @@ You will then get the pagerank results of each html file for both sampling and i
 
 ### Heredity - Explanation
 
-This AI assess the likelihood of a person inherits hearing impairment by the [mutated GJB2 gene] (see [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1285178/) for more details) based on their parents' information and known joint probabilities. It involves manually constructing Bayesian Network (see [here](https://en.wikipedia.org/wiki/Bayesian_network) for reference) structure involving probability theory.
+This AI assess the likelihood of a person inherits hearing impairment by the [mutated GJB2 gene] (see [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1285178/) for more details) based on their parents' information and known joint probabilities. It involves manually constructing Bayesian Network structure (see [here](https://en.wikipedia.org/wiki/Bayesian_network) for reference) involving probability theory.
 
 ### Heredity - How To Run
 
@@ -108,7 +106,7 @@ You will see the probability of each person printed out on the terminal. You can
 
 ### Crossword - Explanation
 
-This AI generates a random crossword based on a list of words to use, that fits into a given structure of a crossword puzzle. This project mainly focuses on solving constraint satisfaction problem, by implementing various algorithm including enforcing arc and node consistency, backtracking, and pruning using MRV and degree heuristic.
+This AI generates a random crossword based on a list of words to use, that fits into a given structure of a crossword puzzle. This project mainly focuses on solving [constraint satisfaction problem](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem), by implementing various algorithm including [enforcing arc and node consistency](https://en.wikipedia.org/wiki/Local_consistency#Local_consistency), [ac3](https://en.wikipedia.org/wiki/AC-3_algorithm), [backtracking](https://en.wikipedia.org/wiki/Backtracking#Pseudocode), and pruning using MRV and degree heuristic.
 
 ### Crossword - How To Run
 
@@ -121,7 +119,7 @@ Assuming you have python installed, go to the project directory and run the foll
     # you can also have your own list of words or crossword structure to generate
 ```
 
-Note that there is not always going to be a solution.
+Note that there is not always going to be a solution for every pair of word set and crossword structure.
 
 ## [Project 4a: Shopping](shopping)
 
@@ -154,25 +152,63 @@ Assuming you have python installed, go to the project directory and run the foll
     python play.py
 ```
 
-You can then take turn playing against the AI. Please note that the algorithm has an epsilon rate of 0.1, which is the chance for the AI to explore random moves apart from exploiting known paths, which means that the AI still can sometimes lose even with high training numbers. You can also customize the game by changing the initial number of piles and its count, or the number of games training played.
+You can then take turn playing against the AI. Please note that the algorithm has an epsilon rate of 0.1, which is the chance for the AI to explore random moves apart from exploiting known paths, which means that the AI can still lose occasionally. You can also customize the game by changing the `PILES` global variable in `nim.py`.
 
 ### Project 5: Traffic
 
+## Traffic - Explanation
+
 Implementing computer vision using convolutional neural network and deep learning to distinguish 43 different traffic signs with thousand of distinct images based on the GTSRB dataset. It requires us to load and convert a whole image as image arrays, experimenting with various configurations of convolutional, pooling and hidden layers as well as documenting the training process.
 
-### Project 6a: Parser
+## Traffic - How To Run
 
-sfsf
+Assuming you have python and pip installed, go to the project directory and run the following on your terminal:
 
-### Project 6b: Questions
+```powershell
+    pip install -r requirements.txt # it may take a while if you haven't installed the packages here
+    python traffic.py gtsrb output.h5 # the default output is already stored in model.h5 file
+    # you may also want to try gtsrb-small for a smaller sample dataset3
+```
 
-sfsdf
+It may take about 2 minutes to train the whole gtsrb dataset, please be patient.
 
-## Course Materials
+## [Project 6a: Parser](parser)
+
+### Parser - Explanation
+
+This AI involves the field of natural language processing which is to parse a sentence (using context-free grammar) and determining its structure. Parsing is very useful as computer will be able to infer more information from a parsed sentence.
+
+### Parser - How To Run
+
+Assuming you have python and pip installed, go to the project directory and run the following on your terminal:
+
+```powershell
+    pip install -r requirements.txt # execute this if you haven't had nltk package installed
+    python parser.py sentences/10.txt # you can try 0.txt up to 9.txt as well
+```
+
+You will then see the parsed sentence tree on your terminal. Alternatively, if you don't provide any command line argument, you will be prompted with your own sentence. Please note though, that this is a simplified parser that only uses a few English words limited to the ones defined under `TERMINALS` variable in `parser.py`.
+
+## [Project 6b: Questions](questions)
+
+### Questions - Explanation
+
+Automated Question Answering AI that is able to answer your query based on a set of corpus (text) files.
+
+### Questions - How To Run
+
+Assuming you have python and pip installed, go to the project directory and run the following on your terminal:
+
+```powershell
+    pip install -r requirements.txt # execute this if you haven't had nltk package installed
+    python questions.py corpus
+```
+
+Please wait a moment for all the corpus to load. Then, you can questions *based on the topics of the text files inside corpus*, such as: `How do neurons connect in a neural network?`, or `What is the use of python try statement?`, etc. The AI (hopefully) is able to understand what you're asking (even if you are using different sentence structure), though it is still likely that the AI won't be able to fully understand your query.
+
+<!-- ## Course Materials
 
 ### Week 1
-
-various search algorithms such as breadth f...
 
 ### Week 2
 
@@ -183,3 +219,5 @@ various search algorithms such as breadth f...
 ### Week 5
 
 ### Week 6
+
+-->
