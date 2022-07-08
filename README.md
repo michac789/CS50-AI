@@ -154,13 +154,13 @@ Assuming you have python installed, go to the project directory and run the foll
 
 You can then take turn playing against the AI. Please note that the algorithm has an epsilon rate of 0.1, which is the chance for the AI to explore random moves apart from exploiting known paths, which means that the AI can still lose occasionally. You can also customize the game by changing the `PILES` global variable in `nim.py`.
 
-### Project 5: Traffic
+## [Project 5: Traffic](traffic)
 
-## Traffic - Explanation
+### Traffic - Explanation
 
 Implementing computer vision using convolutional neural network and deep learning to distinguish 43 different traffic signs with thousand of distinct images based on the GTSRB dataset. It requires us to load and convert a whole image as image arrays, experimenting with various configurations of convolutional, pooling and hidden layers as well as documenting the training process.
 
-## Traffic - How To Run
+### Traffic - How To Run
 
 Assuming you have python and pip installed, go to the project directory and run the following on your terminal:
 
