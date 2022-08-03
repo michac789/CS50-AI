@@ -4,6 +4,70 @@
 
 This repository is based on the course [**CS50's Introduction to Artificial Intelligence with Python**](https://cs50.harvard.edu/ai/2020/). It contains my solution for the 12 different projects offered from this course and the lecture source codes as well. Overall, it is a really amazing free open courseware, packed with concepts of various AI aspects with amazing lectures and intriguing projects.
 
+## Course Materials
+
+### Week 0 - Search
+
+- Search Problems General Understanding
+- Search Frontier Data Structure Approach
+- Depth-First Search & Breadth-First Search
+- Uninformed Search & Informed Search
+- Greedy Best-First Search
+- A* Search
+- Adversarial Search (e.g. minimax algorithm) & Pruning
+
+### Week 1 - Knowledge
+
+- Propositional Logic & Inference
+- Knowledge Engineering
+
+### Week 2 - Uncertainty
+
+- Probability Rules (e.g. conditional probability, Bayes' rules, joint probability, etc.)
+- Bayesian Network
+- Sampling, Probability Inference, Likelihood Weighting
+- Markov Chain & Hidden Markov Model
+- Usage of pomegranate library
+
+### Week 3 - Optimization
+
+- Local Search
+- Hill Climbing Algorithm
+- Simulated Annealing
+- Linear Programming (e.g. using scipy)
+- Constraint Satisfaction Problem (e.g. using constraint library & manual implementation)
+- Backtracking Search, Domain Selection by MRV & Degree Heuristic
+
+### Week 4 - Learning
+
+- K-Nearest-Neighbor Classification
+- Logistic Regression & Linear Regression
+- Perceptron Learning & Support Vector Machine
+- Loss Function, Overfitting, Underfitting
+- Regularization
+- Cross Validation
+- Markov Decision Process
+- Reinforcement Learning (e.g. Q-Learning)
+- Unsupervised Learning (e.g. K-Means Clustering)
+- Usage of scikit-learn library
+
+### Week 5 - Neural Networks
+
+- Artificial Neural Network Mathematical Function (e.g. step fuction, logistic sigmoid, ReLU)
+- Gradient-Descent Algorithm
+- Backpropagation
+- Feed-Forward, Convulational & Recurrent Networks
+- Image Convolution (e.g. using Tensorflow)
+
+### Week 6 - Language
+
+- Context-Free Grammar
+- N-Gram Models & Tokenization
+- Naive Bayes (e.g. determining mood of a text), Additive & Laplace Smoothing
+- Information Retreival Using TF-IDF
+- WordNet, Word2Vec
+- Usage of nltk library
+
 ## [Project 0a: Degrees](degrees)
 
 ### Degrees - Explanation
@@ -205,67 +269,3 @@ Assuming you have python and pip installed, go to the project directory and run 
 ```
 
 Please wait a moment for all the corpus to load. Then, you can questions *based on the topics of the text files inside corpus*, such as: `How do neurons connect in a neural network?`, or `What is the use of python try statement?`, etc. The AI (hopefully) is able to understand what you're asking (even if you are using different sentence structure), though it is still likely that the AI won't be able to fully understand your query.
-
-## Course Materials
-
-### Week 0 - Search
-
-- Search Problems General Understanding
-- Search Frontier Data Structure Approach
-- Depth-First Search & Breadth-First Search
-- Uninformed Search & Informed Search
-- Greedy Best-First Search
-- A* Search
-- Adversarial Search (e.g. minimax algorithm) & Pruning
-
-### Week 1 - Knowledge
-
-- Propositional Logic & Inference
-- Knowledge Engineering
-
-### Week 2 - Uncertainty
-
-- Probability Rules (e.g. conditional probability, Bayes' rules, joint probability, etc.)
-- Bayesian Network
-- Sampling, Probability Inference, Likelihood Weighting
-- Markov Chain & Hidden Markov Model
-- Usage of pomegranate library
-
-### Week 3 - Optimization
-
-- Local Search
-- Hill Climbing Algorithm
-- Simulated Annealing
-- Linear Programming (e.g. using scipy)
-- Constraint Satisfaction Problem (e.g. using constraint library & manual implementation)
-- Backtracking Search, Domain Selection by MRV & Degree Heuristic
-
-### Week 4 - Learning
-
-- K-Nearest-Neighbor Classification
-- Logistic Regression & Linear Regression
-- Perceptron Learning & Support Vector Machine
-- Loss Function, Overfitting, Underfitting
-- Regularization
-- Cross Validation
-- Markov Decision Process
-- Reinforcement Learning (e.g. Q-Learning)
-- Unsupervised Learning (e.g. K-Means Clustering)
-- Usage of scikit-learn library
-
-### Week 5 - Neural Networks
-
-- Artificial Neural Network Mathematical Function (e.g. step fuction, logistic sigmoid, ReLU)
-- Gradient-Descent Algorithm
-- Backpropagation
-- Feed-Forward, Convulational & Recurrent Networks
-- Image Convolution (e.g. using Tensorflow)
-
-### Week 6 - Language
-
-- Context-Free Grammar
-- N-Gram Models & Tokenization
-- Naive Bayes (e.g. determining mood of a text), Additive & Laplace Smoothing
-- Information Retreival Using TF-IDF
-- WordNet, Word2Vec
-- Usage of nltk library
